@@ -3,9 +3,12 @@ import React, { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaStar } from "react-icons/fa";
 import { RiShoppingBag3Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 function Cards() {
+  const navigation = useNavigate()
 const [cart,setCart] = useState()
+
 let data = [
     {
         id:1,
@@ -119,7 +122,7 @@ let data = [
        </div>
        <div className="text-center">
          <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" >
-           <RiShoppingBag3Line className="mr-2 inline-block text-xl" />
+           <RiShoppingBag3Line className="mr-2 inline-block text-xl" onClick={()=>navigation('cart')}/>
            Add to Cart
          </button>
        </div>
