@@ -7,7 +7,10 @@ function Cart() {
     { id: 3, name: 'Product 3', price: 150, quantity: 1 },
   ]);
 
+  const [promoCode, setPromoCode] = useState('');
+  const [discount, setDiscount] = useState(0);
 
+  // Function to handle quantity change
   const handleQuantityChange = (id, newQuantity) => {
     const updatedCart = cartItems.map(item =>
       item.id === id ? { ...item, quantity: newQuantity } : item
@@ -15,15 +18,29 @@ function Cart() {
     setCartItems(updatedCart);
   };
 
-
+  // Function to calculate total price
   const calculateTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const discountAmount = subtotal * (discount / 100);
+    return subtotal - discountAmount;
   };
 
-
+  // Function to handle checkout
   const handleCheckout = () => {
-   
+    // Implement checkout logic here
     alert('Proceeding with checkout!');
+  };
+
+  // Function to handle applying promo code
+  const applyPromoCode = () => {
+    if (promoCode === 'DISCOUNT10') {
+      setDiscount(10);
+    } else if (promoCode === 'DISCOUNT20') {
+      setDiscount(20);
+    } else {
+      setDiscount(0);
+      alert('Invalid promo code');
+    }
   };
 
   return (
@@ -55,8 +72,22 @@ function Cart() {
           </div>
         ))}
         <div className="flex justify-between items-center py-4 px-6">
-          <p className="font-semibold text-lg text-white">Total:</p>
-          <p className="font-semibold text-xl text-white">Rs {calculateTotalPrice()}</p>
+          <div className="flex items-center">
+            <input
+              type="text"
+              value={promoCode}
+              onChange={(e) => setPromoCode(e.target.value)}
+              placeholder="Enter promo code"
+              className="px-3 py-1 mr-4 rounded-md border border-gray-300 focus:outline-none"
+            />
+            <button
+              onClick={applyPromoCode}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-lg"
+            >
+              Apply
+            </button>
+          </div>
+          <p className="font-semibold text-lg text-white">Total: Rs {calculateTotalPrice()}</p>
         </div>
         <div className="flex justify-end py-4 px-6">
           <button
